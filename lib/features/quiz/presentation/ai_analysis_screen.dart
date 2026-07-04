@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/features/dashboard/presentation/main_navigation_screen.dart';
 import '../../../core/theme/app_colors.dart';
 import 'ai_career_report_screen.dart';
 
@@ -17,7 +18,7 @@ class _AiAnalysisScreenState extends State<AiAnalysisScreen> {
     Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const AiCareerReportScreen()),
+        MaterialPageRoute(builder: (_) => const MainNavigationScreen()),
       );
     });
   }

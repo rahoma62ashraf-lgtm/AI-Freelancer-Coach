@@ -14,18 +14,20 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
 
-  // ترتيب الشاشات الأساسية داخل التطبيق
-  final List<Widget> _screens = [
-    const DashboardScreen(),
-    const AiCoachChatScreen(),
-    const CvAnalyzerScreen(),
-  ];
-
+  // دالة موحّدة لتغيير التاب الحالي، هنمررها للشاشات الفرعية
+  // بدل ما هما يعملوا Navigator.push لبعض
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
+
+  // بنبني الليستة هنا (مش final ثابتة) عشان نقدر نمرر الـ callback
+  List<Widget> get _screens => [
+    DashboardScreen(onNavigateToTab: _onItemTapped),
+    const AiCoachChatScreen(),
+    CvAnalyzerScreen(onNavigateToTab: _onItemTapped),
+  ];
 
   @override
   Widget build(BuildContext context) {
