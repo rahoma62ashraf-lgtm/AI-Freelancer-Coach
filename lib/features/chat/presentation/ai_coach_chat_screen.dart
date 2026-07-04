@@ -62,10 +62,9 @@ class _AiCoachChatScreenState extends State<AiCoachChatScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textDark),
-          onPressed: () => Navigator.pop(context),
-        ),
+        // الشاشة دي أصبحت تاب جوه IndexedStack ومش بتُفتح بـ Navigator.push
+        // فمافيش صفحة سابقة يترجع ليها Navigator.pop، فبنشيل زرار الرجوع
+        automaticallyImplyLeading: false,
         title: Row(
           children: [
             CircleAvatar(

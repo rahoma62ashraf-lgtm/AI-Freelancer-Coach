@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../chat/presentation/ai_coach_chat_screen.dart'; // تأكدي أن المسار ده صح عندك
 
 class CvAnalyzerScreen extends StatelessWidget {
-  const CvAnalyzerScreen({super.key});
+  // دالة بتوصل من MainNavigationScreen لتغيير التاب الحالي
+  // (index 1 = AI Coach Chat) بدل فتح شاشة جديدة فوق الحالية
+  final void Function(int index)? onNavigateToTab;
+
+  const CvAnalyzerScreen({super.key, this.onNavigateToTab});
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +15,9 @@ class CvAnalyzerScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textDark),
-          onPressed: () => Navigator.pop(context),
-        ),
+        // الشاشة دي أصبحت تاب جوه IndexedStack ومش بتُفتح بـ Navigator.push
+        // فمافيش صفحة سابقة يترجع ليها Navigator.pop، فبنشيل زرار الرجوع
+        automaticallyImplyLeading: false,
         title: const Text(
           'AI CV Analyzer',
           style: TextStyle(
@@ -98,13 +100,9 @@ class CvAnalyzerScreen extends StatelessWidget {
                     const SizedBox(height: 8),
                     TextButton.icon(
                       onPressed: () {
-                        // الانتقال المباشر لشاشة دردشة الكوتش الذكي لبناء السيرة الذاتية
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const AiCoachChatScreen(),
-                          ),
-                        );
+                        // بدل Navigator.push، بنغيّر التاب الحالي في
+                        // MainNavigationScreen علشان يظهر الشريط السفلي بشكل صحيح
+                        onNavigateToTab?.call(1);
                       },
                       icon: const Icon(
                         Icons.auto_awesome,

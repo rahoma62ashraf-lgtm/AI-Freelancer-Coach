@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../chat/presentation/ai_coach_chat_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
+  // دالة بتوصل من MainNavigationScreen لتغيير التاب الحالي
+  // (index 1 = AI Coach Chat) بدل فتح شاشة جديدة فوق الحالية
+  final void Function(int index)? onNavigateToTab;
+
+  const DashboardScreen({super.key, this.onNavigateToTab});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,7 @@ class DashboardScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // كارت الترحيب الذكي - تم إزالة const وتعديل اللون الشفاف هنا
+              // كارت الترحيب الذكي
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(24),
@@ -75,7 +78,6 @@ class DashboardScreen extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    // تم تعديل Colors.white80 إلى withAlpha لحل المشكلة تماماً
                     Text(
                       'Ready to accelerate your career, build an ATS CV, and optimize your roadmap today?',
                       style: TextStyle(
@@ -87,12 +89,9 @@ class DashboardScreen extends StatelessWidget {
                     const SizedBox(height: 20),
                     ElevatedButton.icon(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const AiCoachChatScreen(),
-                          ),
-                        );
+                        // بدل Navigator.push، بنغيّر التاب الحالي في
+                        // MainNavigationScreen علشان يظهر الشريط السفلي بشكل صحيح
+                        onNavigateToTab?.call(1);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
