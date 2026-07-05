@@ -1,127 +1,138 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
 import 'register_screen.dart';
-import 'forgot_password_screen.dart';
-import '../../quiz/presentation/choose_track_screen.dart'; // الشاشة التالية بعد الدخول للجدد
+import '../../quiz/presentation/choose_track_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bgLight,
+      backgroundColor: const Color(0xFFF8F9FA),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () => Navigator.pop(context),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Welcome Back',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textDark,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Sign in to continue customized AI tracking.',
-                style: TextStyle(color: AppColors.textSecondary),
-              ),
-              const SizedBox(height: 40),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Email Address',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 40),
+                const Text(
+                  'Welcome Back 👋',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1A1A1A),
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none,
-                  ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Sign in to continue your AI career growth.',
+                  style: TextStyle(color: Color(0xFF6C757D)),
                 ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const ForgotPasswordScreen(),
-                    ),
-                  ),
-                  child: const Text(
-                    'Forgot Password?',
-                    style: TextStyle(color: AppColors.primary),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    shape: RoundedRectangleBorder(
+                const SizedBox(height: 40),
+
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Email Address',
+                    prefixIcon: const Icon(Icons.email_outlined),
+                    border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  onPressed: () => Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const ChooseTrackScreen(),
+                  validator: (value) =>
+                      value!.isEmpty ? 'Please enter your email' : null,
+                ),
+                const SizedBox(height: 20),
+
+                TextFormField(
+                  obscureText: _obscurePassword,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    prefixIcon: const Icon(Icons.lock_outlined),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                      ),
+                      onPressed: () =>
+                          setState(() => _obscurePassword = !_obscurePassword),
                     ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  validator: (value) =>
+                      value!.isEmpty ? 'Please enter your password' : null,
+                ),
+                const SizedBox(height: 32),
+
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      // عند الضغط، بننقل المستخدم فوراً لشاشات اختيار المجال والـ Quiz
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ChooseTrackScreen(),
+                        ),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF673AB7),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    elevation: 0,
                   ),
                   child: const Text(
-                    'Login',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    'Sign In',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
-              ),
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Don't have an account? ",
-                    style: TextStyle(color: AppColors.textSecondary),
-                  ),
-                  GestureDetector(
-                    onTap: () => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (_) => const RegisterScreen()),
+                const SizedBox(height: 24),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Don't have an account? ",
+                      style: TextStyle(color: Color(0xFF6C757D)),
                     ),
-                    child: const Text(
-                      'Sign Up',
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.bold,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const RegisterScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          color: Color(0xFF673AB7),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

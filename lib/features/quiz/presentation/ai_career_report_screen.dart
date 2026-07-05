@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../dashboard/presentation/main_navigation_screen.dart';
+import '../../navigation/main_navigation_screen.dart';
 
 class AiCareerReportScreen extends StatelessWidget {
   const AiCareerReportScreen({super.key});
@@ -13,119 +13,77 @@ class AiCareerReportScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Center(child: Text('📊', style: TextStyle(fontSize: 60))),
-              const SizedBox(height: 16),
-              const Center(
-                child: Text(
-                  'Your AI Career Report',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textDark,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 32),
-
+              const SizedBox(height: 20),
               const Text(
-                'Technical Score Summary',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          '84%',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                          ),
-                        ),
-                        Text('ATS Match'),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          'Level 3',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue,
-                          ),
-                        ),
-                        Text('Tech Scale'),
-                      ],
-                    ),
-                  ],
+                'Your AI Career Report 📊',
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textDark,
                 ),
               ),
               const SizedBox(height: 24),
-
-              const Text(
-                'AI Observations:',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 12),
-              Expanded(
-                child: ListView(
-                  children: const [
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Column(
+                  children: [
                     ListTile(
-                      leading: Icon(Icons.check_circle, color: Colors.green),
-                      title: Text(
-                        'Strong comprehension of Material 3 and architecture layout rules.',
+                      title: Text('Technical Level'),
+                      trailing: Text(
+                        'Junior Flutter Dev',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
                       ),
                     ),
+                    Divider(),
                     ListTile(
-                      leading: Icon(Icons.check_circle, color: Colors.green),
-                      title: Text(
-                        'Ready for active freelance marketplace deployment.',
+                      title: Text('Skill Score'),
+                      trailing: Text(
+                        '78%',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green,
+                        ),
                       ),
                     ),
+                    Divider(),
                     ListTile(
-                      leading: Icon(Icons.error_outline, color: Colors.amber),
-                      title: Text(
-                        'Recommendation: Focus on async optimization and backend data structures.',
+                      title: Text('Suggested Roadmap'),
+                      trailing: Text(
+                        'Clean Architecture Track',
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
                 ),
               ),
-
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
+              const Spacer(),
+              ElevatedButton(
+                onPressed: () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const MainNavigationScreen(),
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const MainNavigationScreen(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    'Access My Dashboard 🚀',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
                   ),
+                ),
+                child: const Text(
+                  'Access My Dashboard',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
             ],

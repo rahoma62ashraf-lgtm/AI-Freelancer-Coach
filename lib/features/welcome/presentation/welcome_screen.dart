@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../auth/presentation/login_screen.dart';
-import '../../auth/presentation/register_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -9,79 +7,56 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bgLight,
+      backgroundColor: const Color(0xFFF8F9FA),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Spacer(),
-              const Icon(
-                Icons.rocket_launch_rounded,
-                size: 100,
-                color: AppColors.primary,
-              ),
-              const SizedBox(height: 32),
               const Text(
-                'Welcome to Freelancer AI Coach',
+                '✨',
+                style: TextStyle(fontSize: 60),
                 textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              const Text(
+                'Welcome to AI Career Coach',
                 style: TextStyle(
-                  fontSize: 26,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textDark,
+                  color: Color(0xFF1A1A1A),
                 ),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Your smart gateway to master technical tracks and win high-paying client contracts.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: AppColors.textSecondary,
-                  height: 1.5,
-                ),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'Your personalized intelligent roadmap provider and freelance growth assistant.',
+                style: TextStyle(fontSize: 16, color: Color(0xFF6C757D)),
+                textAlign: TextAlign.center,
               ),
               const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  onPressed: () => Navigator.push(
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (_) => const LoginScreen()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF673AB7),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  child: const Text(
-                    'Login to Your Account',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
+                  elevation: 0,
                 ),
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: AppColors.primary, width: 2),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const RegisterScreen()),
-                  ),
-                  child: const Text(
-                    'Create New Account',
-                    style: TextStyle(color: AppColors.primary, fontSize: 16),
-                  ),
+                child: const Text(
+                  'Get Started',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
             ],

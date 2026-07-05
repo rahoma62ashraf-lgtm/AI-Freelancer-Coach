@@ -11,25 +11,26 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
-  int _currentIndex = 0;
+  int _currentPage = 0;
 
+  // البيانات الخاصة بالشاشات الثلاثة
   final List<Map<String, String>> _onboardingData = [
     {
-      'title': 'AI-Driven Roadmaps',
-      'desc':
-          'Get a personalized technical track roadmap tailored by AI to match your exact level.',
+      'title': 'AI Career Guidance',
+      'description':
+          'Get personal mentoring and track recommendations tailored specifically for your skills.',
       'icon': '🧠',
     },
     {
-      'title': 'Proposal & Portfolio Built',
-      'desc':
-          'Analyze your CV, optimize your portfolio, and generate winning proposals easily.',
-      'icon': '💼',
+      'title': 'Smart CV & Portfolio Analysis',
+      'description':
+          'Scan your CV against ATS systems and optimize your portfolio projects with AI.',
+      'icon': '📊',
     },
     {
-      'title': 'Land High Gigs',
-      'desc':
-          'Simulate real freelance interviews with our built-in interactive AI Interview Coach.',
+      'title': 'Freelance & Job Readiness',
+      'description':
+          'Generate professional proposals and simulate live technical interviews easily.',
       'icon': '🚀',
     },
   ];
@@ -39,31 +40,37 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Scaffold(
       backgroundColor: AppColors.bgLight,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: TextButton(
-                  onPressed: () => Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (_) => const WelcomeScreen()),
-                  ),
-                  child: const Text(
-                    'Skip',
-                    style: TextStyle(color: AppColors.textSecondary),
+        child: Column(
+          children: [
+            // زر تخطي الـ Onboarding
+            Align(
+              alignment: Alignment.topRight,
+              key: const ValueKey('skip_button_align'),
+              child: TextButton(
+                onPressed: () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+                ),
+                child: const Text(
+                  'Skip',
+                  style: TextStyle(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              Expanded(
-                child: PageView.builder(
-                  controller: _pageController,
-                  onPageChanged: (index) =>
-                      setState(() => _currentIndex = index),
-                  itemCount: _onboardingData.length,
-                  itemBuilder: (context, index) {
-                    return Column(
+            ),
+
+            // محتوى الشاشات المتحرك
+            Expanded(
+              child: PageView.builder(
+                controller: _pageController,
+                onPageChanged: (index) => setState(() => _currentPage = index),
+                itemCount: _onboardingData.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(40.0),
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
@@ -73,81 +80,81 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         const SizedBox(height: 40),
                         Text(
                           _onboardingData[index]['title']!,
+                          textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                             color: AppColors.textDark,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 20),
                         Text(
-                          _onboardingData[index]['desc']!,
+                          _onboardingData[index]['description']!,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
-                            fontSize: 15,
+                            fontSize: 14,
                             color: AppColors.textSecondary,
                             height: 1.5,
                           ),
                         ),
                       ],
-                    );
-                  },
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  _onboardingData.length,
-                  (index) => AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    margin: const EdgeInsets.only(right: 8),
-                    height: 8,
-                    width: _currentIndex == index ? 24 : 8,
-                    decoration: BoxDecoration(
-                      color: _currentIndex == index
-                          ? AppColors.primary
-                          : Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(4),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
-              const SizedBox(height: 40),
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  onPressed: () {
-                    if (_currentIndex == _onboardingData.length - 1) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const WelcomeScreen(),
-                        ),
-                      );
-                    } else {
-                      _pageController.nextPage(
+            ),
+
+            // مؤشر الصفحات (Dots) والزر السفلي
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: List.generate(
+                      _onboardingData.length,
+                      (index) => AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  },
-                  child: Text(
-                    _currentIndex == _onboardingData.length - 1
-                        ? 'Get Started'
-                        : 'Next',
-                    style: const TextStyle(color: Colors.white, fontSize: 16),
+                        margin: const EdgeInsets.only(right: 8),
+                        height: 8,
+                        width: _currentPage == index ? 24 : 8,
+                        decoration: BoxDecoration(
+                          color: _currentPage == index
+                              ? AppColors.primary
+                              : Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  FloatingActionButton(
+                    onPressed: () {
+                      if (_currentPage < _onboardingData.length - 1) {
+                        _pageController.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeIn,
+                        );
+                      } else {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const WelcomeScreen(),
+                          ),
+                        );
+                      }
+                    },
+                    backgroundColor: AppColors.primary,
+                    child: Icon(
+                      _currentPage == _onboardingData.length - 1
+                          ? Icons.done
+                          : Icons.arrow_forward_ios_rounded,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

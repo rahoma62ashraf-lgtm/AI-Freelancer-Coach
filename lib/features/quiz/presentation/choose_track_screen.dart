@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
-import 'ai_assessment_screen.dart';
+import 'choose_level_screen.dart';
 
 class ChooseTrackScreen extends StatefulWidget {
   const ChooseTrackScreen({super.key});
@@ -11,18 +11,28 @@ class ChooseTrackScreen extends StatefulWidget {
 
 class _ChooseTrackScreenState extends State<ChooseTrackScreen> {
   String? _selectedTrack;
-  String? _selectedLevel;
 
-  final List<Map<String, dynamic>> _tracks = [
-    {'name': 'Computer Science / Mobile Dev', 'icon': Icons.phone_android},
-    {'name': 'UI/UX Design (Material 3)', 'icon': Icons.design_services},
-    {'name': 'Full-Stack Web Developer', 'icon': Icons.code},
-  ];
-
-  final List<String> _levels = [
-    'Beginner',
-    'Intermediate',
-    'Senior / Advanced',
+  final List<Map<String, String>> _tracks = [
+    {
+      'name': 'Mobile App Developer',
+      'icon': '📱',
+      'desc': 'Flutter, Native iOS/Android',
+    },
+    {
+      'name': 'Frontend Developer',
+      'icon': '💻',
+      'desc': 'React, Vue, Next.js UI',
+    },
+    {
+      'name': 'Backend Developer',
+      'icon': '⚙️',
+      'desc': 'Node.js, Python, Databases',
+    },
+    {
+      'name': 'AI & Data Scientist',
+      'icon': '🤖',
+      'desc': 'Machine Learning, Python',
+    },
   ];
 
   @override
@@ -33,10 +43,11 @@ class _ChooseTrackScreenState extends State<ChooseTrackScreen> {
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const SizedBox(height: 20),
               const Text(
-                'Tailor Your AI Coach',
+                'Select Your Track 🚀',
                 style: TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
@@ -45,128 +56,105 @@ class _ChooseTrackScreenState extends State<ChooseTrackScreen> {
               ),
               const SizedBox(height: 8),
               const Text(
-                'Select your track and current expertise level.',
+                'Choose the field you want to master with AI.',
                 style: TextStyle(color: AppColors.textSecondary),
               ),
               const SizedBox(height: 32),
-
-              const Text(
-                '1. Choose Technical Track',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textDark,
-                ),
-              ),
-              const SizedBox(height: 12),
               Expanded(
                 child: ListView.builder(
                   itemCount: _tracks.length,
                   itemBuilder: (context, index) {
                     final track = _tracks[index];
                     final isSelected = _selectedTrack == track['name'];
-                    return Card(
-                      color: isSelected ? Colors.indigo.shade50 : Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        side: BorderSide(
+                    return GestureDetector(
+                      onTap: () =>
+                          setState(() => _selectedTrack = track['name']),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        margin: const EdgeInsets.only(bottom: 16),
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
                           color: isSelected
-                              ? AppColors.primary
-                              : Colors.transparent,
-                          width: 2,
-                        ),
-                      ),
-                      margin: const EdgeInsets.only(bottom: 12),
-                      child: ListTile(
-                        leading: Icon(
-                          track['icon'],
-                          color: isSelected
-                              ? AppColors.primary
-                              : AppColors.textSecondary,
-                        ),
-                        title: Text(
-                          track['name'],
-                          style: TextStyle(
-                            fontWeight: isSelected
-                                ? FontWeight.bold
-                                : FontWeight.normal,
+                              ? AppColors.primary.withAlpha(20)
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: isSelected
+                                ? AppColors.primary
+                                : Colors.transparent,
+                            width: 2,
                           ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withAlpha(5),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
                         ),
-                        onTap: () =>
-                            setState(() => _selectedTrack = track['name']),
+                        child: Row(
+                          children: [
+                            Text(
+                              track['icon']!,
+                              style: const TextStyle(fontSize: 32),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    track['name']!,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: AppColors.textDark,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    track['desc']!,
+                                    style: const TextStyle(
+                                      color: AppColors.textSecondary,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            if (isSelected)
+                              const Icon(
+                                Icons.check_circle_rounded,
+                                color: AppColors.primary,
+                              ),
+                          ],
+                        ),
                       ),
                     );
                   },
                 ),
               ),
-
-              const Text(
-                '2. Select Your Level',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textDark,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: _levels.map((level) {
-                  final isSelected = _selectedLevel == level;
-                  return Expanded(
-                    child: GestureDetector(
-                      onTap: () => setState(() => _selectedLevel = level),
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        decoration: BoxDecoration(
-                          color: isSelected ? AppColors.primary : Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: isSelected
-                                ? AppColors.primary
-                                : Colors.grey.shade300,
-                          ),
-                        ),
-                        child: Text(
-                          level,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: isSelected
-                                ? Colors.white
-                                : AppColors.textDark,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
+              ElevatedButton(
+                onPressed: _selectedTrack == null
+                    ? null
+                    : () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ChooseLevelScreen(),
                         ),
                       ),
-                    ),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 40),
-
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  onPressed: (_selectedTrack != null && _selectedLevel != null)
-                      ? () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const AiAssessmentScreen(),
-                          ),
-                        )
-                      : null,
-                  child: const Text(
-                    'Start AI Assessment',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
+                  elevation: 0,
+                ),
+                child: const Text(
+                  'Continue',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
             ],
